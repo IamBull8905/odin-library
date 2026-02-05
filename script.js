@@ -1,4 +1,5 @@
 const myLibrary = [];
+const table = document.getElementById("library-table");
 
 function Book(title, author, pages, read) {
   if (!new.target) {
@@ -16,5 +17,31 @@ function addBookToLibrary(title, author, pages, read) {
   myLibrary.push(book);
 };
 
-// addBookToLibrary("abc", "def", 265, true);
-// console.log(myLibrary);
+function updateCellContents(currentBook, newCell, newCellIndex) {
+    if (newCellIndex === 0) {
+        newCell.textContent = currentBook.title;
+    } else if (newCellIndex === 1) {
+        newCell.textContent = currentBook.author;
+    } else if (newCellIndex === 2) {
+        newCell.textContent = currentBook.pages;
+    } else if (newCellIndex === 3) {
+        newCell.textContent = currentBook.read;
+    } else {
+        return null;
+    };
+};
+
+// books for testing purposes
+addBookToLibrary("Pride and Prejudice", "Jane Austen", 279, true);
+addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 323, false);
+addBookToLibrary("Six of Crows", "Leigh Bardugo", 480, true);
+addBookToLibrary("A Good Girl's Guide to Murder", "Holly Jackson", 433, true);
+
+for (const currentBook of myLibrary) {
+    let newRow = table.insertRow();
+    for (let i = 0; i < 4; i++) {
+         let newCell = newRow.insertCell(i);
+         let newCellIndex = newCell.cellIndex;
+         updateCellContents(currentBook, newCell, newCellIndex);
+    };
+};
