@@ -1,5 +1,22 @@
 const myLibrary = [];
 const table = document.getElementById("library-table");
+const dialog = document.querySelector("dialog");
+const openButton = document.getElementById("open-form");
+const closeButton = document.getElementById("close-form");
+const submitButton = document.getElementById("submit-button");
+const form = document.querySelector("form");
+const titleInput = document.getElementById("book-title");
+const authorInput = document.getElementById("book-author");
+const pagesInput = document.getElementById("pages");
+const readInput = document.getElementById("read-book");
+
+openButton.addEventListener("click", () => {
+    dialog.showModal();
+});
+
+closeButton.addEventListener("click", () => {
+    dialog.close();
+});
 
 function Book(title, author, pages, read) {
   if (!new.target) {
@@ -13,8 +30,8 @@ function Book(title, author, pages, read) {
 };
 
 function addBookToLibrary(title, author, pages, read) {
-  const book = new Book(title, author, pages, read);
-  myLibrary.push(book);
+    const book = new Book(title, author, pages, read);
+    myLibrary.push(book);
 };
 
 function updateCellContents(currentBook, newCell, newCellIndex) {
@@ -31,13 +48,7 @@ function updateCellContents(currentBook, newCell, newCellIndex) {
     };
 };
 
-// books for testing purposes
-addBookToLibrary("Pride and Prejudice", "Jane Austen", 279, true);
-addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 323, false);
-addBookToLibrary("Six of Crows", "Leigh Bardugo", 480, true);
-addBookToLibrary("A Good Girl's Guide to Murder", "Holly Jackson", 433, true);
-
-for (const currentBook of myLibrary) {
+function addBookToTable(currentBook) {
     let newRow = table.insertRow();
     for (let i = 0; i < 4; i++) {
          let newCell = newRow.insertCell(i);
@@ -45,3 +56,30 @@ for (const currentBook of myLibrary) {
          updateCellContents(currentBook, newCell, newCellIndex);
     };
 };
+
+// books for testing purposes
+addBookToLibrary("Pride and Prejudice", "Jane Austen", 279, true);
+addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 323, false);
+addBookToLibrary("Six of Crows", "Leigh Bardugo", 480, true);
+addBookToLibrary("A Good Girl's Guide to Murder", "Holly Jackson", 433, true);
+
+for (const currentBook of myLibrary) {
+    addBookToTable(currentBook);
+};
+
+submitButton.addEventListener("click", event => {
+    event.preventDefault();
+    if (!form.checkValidity()) {
+        alert("Invalid values entered!");
+        return null;
+    } else {
+        let title = titleInput.value;
+        let author = authorInput.value;
+        let pages = pagesInput.value;
+        let read = readInput.checked;
+        addBookToLibrary(title, author, pages, read);
+        const newBook = myLibrary.at(-1);
+        addBookToTable(newBook);
+    };
+    dialog.close();
+});

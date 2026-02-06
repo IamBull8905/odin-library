@@ -36,3 +36,22 @@ tr:nth-child(odd) td {
 caption {
   padding: 10px;
 }
+
+
+form {
+  display: grid;;
+}
+
+input:invalid {
+    border-color: red;
+}
+
+input:valid {
+    border-color: green;
+}
+
+input:focus {
+  border-color: lightblue;
+  outline: none;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
