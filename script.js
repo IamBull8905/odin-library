@@ -43,6 +43,21 @@ function updateCellContents(currentBook, newCell, newCellIndex) {
         newCell.textContent = currentBook.pages;
     } else if (newCellIndex === 3) {
         newCell.textContent = currentBook.read;
+    } else if (newCellIndex === 4) {
+        const deleteButton = document.createElement("button");
+        deleteButton.dataset.buttonID = currentBook.id;
+        deleteButton.classList.add("delete-button");
+        const deleteButtonText = document.createTextNode("Delete Book");
+        deleteButton.appendChild(deleteButtonText);
+        newCell.appendChild(deleteButton);
+
+        deleteButton.addEventListener("click", () => {
+            for (const row of table.rows) {
+                if (row.dataset.bookID === deleteButton.dataset.buttonID) {
+                    row.remove();
+                };
+            };
+        });
     } else {
         return null;
     };
@@ -50,7 +65,8 @@ function updateCellContents(currentBook, newCell, newCellIndex) {
 
 function addBookToTable(currentBook) {
     let newRow = table.insertRow();
-    for (let i = 0; i < 4; i++) {
+    newRow.dataset.bookID = currentBook.id;
+    for (let i = 0; i < 5; i++) {
          let newCell = newRow.insertCell(i);
          let newCellIndex = newCell.cellIndex;
          updateCellContents(currentBook, newCell, newCellIndex);
