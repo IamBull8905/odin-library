@@ -29,6 +29,19 @@ function Book(title, author, pages, read) {
   this.id = crypto.randomUUID();
 };
 
+Book.prototype.toggleReadButton = function (readButton) {
+    this.read = !this.read;
+    if (this.read) {
+        readButton.textContent = "Unread";
+        readButton.classList.add("unread-book");
+        readButton.classList.remove("read-book");
+    } else {
+        readButton.textContent = "Read";
+        readButton.classList.remove("unread-book");
+        readButton.classList.add("read-book");
+    };
+};
+
 function addBookToLibrary(title, author, pages, read) {
     const book = new Book(title, author, pages, read);
     myLibrary.push(book);
@@ -42,7 +55,21 @@ function updateCellContents(currentBook, newCell, newCellIndex) {
     } else if (newCellIndex === 2) {
         newCell.textContent = currentBook.pages;
     } else if (newCellIndex === 3) {
-        newCell.textContent = currentBook.read;
+        const readButton = document.createElement("button");
+        if (currentBook.read === true) {
+            readButton.textContent = "Unread";
+            readButton.classList.add("unread-book");
+            readButton.classList.remove("read-book");
+        } else {
+            readButton.textContent = "Read";
+            readButton.classList.remove("unread-book");
+            readButton.classList.add("read-book");
+        };
+        newCell.appendChild(readButton);
+
+        readButton.addEventListener("click", () => {
+            currentBook.toggleReadButton(readButton);
+        });
     } else if (newCellIndex === 4) {
         const deleteButton = document.createElement("button");
         deleteButton.dataset.buttonID = currentBook.id;
@@ -78,6 +105,7 @@ addBookToLibrary("Pride and Prejudice", "Jane Austen", 279, true);
 addBookToLibrary("To Kill a Mockingbird", "Harper Lee", 323, false);
 addBookToLibrary("Six of Crows", "Leigh Bardugo", 480, true);
 addBookToLibrary("A Good Girl's Guide to Murder", "Holly Jackson", 433, true);
+addBookToLibrary("The Midnight Library", "Matt Haig", 288, true);
 
 for (const currentBook of myLibrary) {
     addBookToTable(currentBook);
