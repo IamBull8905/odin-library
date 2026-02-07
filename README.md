@@ -1,1 +1,2 @@
 # odin-library
+This is the first project in the Javascript course of The Odin Project. It let me recap tables and forms from the intermediate HTML/CSS course. I learnt how to use objects, object constructors and prototypes (main focus of the project) but also how to create unique IDs and data attributes.
